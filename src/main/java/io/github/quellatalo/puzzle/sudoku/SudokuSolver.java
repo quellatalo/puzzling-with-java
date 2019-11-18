@@ -18,6 +18,8 @@ import static io.github.quellatalo.puzzle.sudoku.Sudoku.SPACE;
 
 public class SudokuSolver implements IPuzzleSolver {
     private static String basicRules = null;
+    private static int V = 9 * 9 * 9;
+    private static int C = 9072;
 
     private Reader reader;
     private Sudoku sudoku;
@@ -29,7 +31,7 @@ public class SudokuSolver implements IPuzzleSolver {
     }
 
     @Override
-    public void load(String inputFile, String outputFile) throws IOException, ParseFormatException, ContradictionException, TimeoutException {
+    public void load(String inputFile, String cnfConvertedFile) throws IOException, ParseFormatException, ContradictionException, TimeoutException {
         StringBuilder sb = new StringBuilder();
         int count = C;
         String[] lines = Files.lines(Paths.get(inputFile)).toArray(String[]::new);
@@ -47,8 +49,8 @@ public class SudokuSolver implements IPuzzleSolver {
             basicRules = new Scanner(getClass().getResourceAsStream(BASE_RULE_FILE)).useDelimiter("\\A").next();
         }
         sb.append(basicRules);
-        Files.writeString(Paths.get(outputFile), sb.toString());
-        sudoku.solveProblem(reader.parseInstance(outputFile));
+        Files.writeString(Paths.get(cnfConvertedFile), sb.toString());
+        sudoku.solveProblem(reader.parseInstance(cnfConvertedFile));
     }
 
     @Override

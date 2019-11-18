@@ -1,12 +1,12 @@
 package io.github.quellatalo.puzzle.sudoku;
 
+import io.github.quellatalo.puzzle.IPuzzle;
 import org.sat4j.specs.IProblem;
 import org.sat4j.specs.TimeoutException;
 
-public class Sudoku {
+public class Sudoku implements IPuzzle {
     private static final String BORDER ="+-------+-------+-------+"+System.lineSeparator();
     private static final String BORDER_C ="|";
-    static final String SPACE = " ";
     private int[][] matrix;
     private boolean solved;
 
@@ -14,34 +14,37 @@ public class Sudoku {
         matrix = new int[9][9];
     }
 
+    @Override
     public void solveProblem(IProblem problem) throws TimeoutException {
         solved = false;
         if(problem.isSatisfiable()){
-            solved = true;
             for (int i = 111; i < 1000; i++) {
                 if (problem.model(i))
                     matrix[(i/100)-1][((i/10)%10)-1] = i%10;
             }
+            solved = true;
         }
     }
 
+    @Override
     public boolean isSolved() {
         return solved;
     }
 
+    @Override
     public String display(){
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append(BORDER);
         byte r = 0;
-        for(; r<3;r++){
+        for(; r<3; r++){
             stringBuilder.append(displayRow(r));
         }
         stringBuilder.append(BORDER);
-        for(; r<6;r++){
+        for(; r<6; r++){
             stringBuilder.append(displayRow(r));
         }
         stringBuilder.append(BORDER);
-        for(; r<9;r++){
+        for(; r<9; r++){
             stringBuilder.append(displayRow(r));
         }
         stringBuilder.append(BORDER);

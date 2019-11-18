@@ -1,5 +1,4 @@
 # Project exclude paths
-/target/
 /*.txt
 
 # Compiled class file
